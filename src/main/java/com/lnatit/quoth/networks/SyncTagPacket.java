@@ -1,6 +1,7 @@
 package com.lnatit.quoth.networks;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
@@ -35,7 +36,7 @@ public class SyncTagPacket
         NetworkEvent.Context context = contextSupplier.get();
 
         context.enqueueWork(() -> {
-            Player player = Minecraft.getInstance().player;
+            LocalPlayer player = Minecraft.getInstance().player;
             if (player != null)
             {
                 if (packet.add)

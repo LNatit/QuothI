@@ -35,6 +35,10 @@ public class NetworkManager
 
     public static void sendTagUpdate(ServerPlayer player, boolean add, String tag)
     {
+        if (add)
+            player.addTag(tag);
+        else player.removeTag(tag);
+
         CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new SyncTagPacket(add, tag));
     }
 }
