@@ -3,15 +3,14 @@ package com.lnatit.quoth.networks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 public class SyncTagPacket
 {
-    private boolean add;
-    private String tag;
+    private final boolean add;
+    private final String tag;
 
     public SyncTagPacket(FriendlyByteBuf buf)
     {
