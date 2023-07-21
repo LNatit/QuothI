@@ -10,6 +10,8 @@ import net.minecraftforge.common.util.NonNullSupplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.LinkedList;
+
 public interface IChatLog extends INBTSerializable<CompoundTag>
 {
     void addEntry(@Nullable String sender, String contents, long timeStamp);
@@ -18,11 +20,18 @@ public interface IChatLog extends INBTSerializable<CompoundTag>
 
     void clear();
 
-    public static class Provider<T extends IChatLog> implements ICapabilitySerializable<CompoundTag>
-    {
-        LazyOptional<T> opt;
+    @Override
+    @NotNull
+    CompoundTag serializeNBT();
 
-        public Provider(NonNullSupplier<T> instanceSupplier)
+    @Override
+    void deserializeNBT(CompoundTag nbt);
+
+    class Provider<C extends IChatLog> implements ICapabilitySerializable<CompoundTag>
+    {
+        LazyOptional<C> opt;
+
+        public Provider(NonNullSupplier<C> instanceSupplier)
         {
             opt = LazyOptional.of(instanceSupplier);
         }
@@ -30,7 +39,7 @@ public interface IChatLog extends INBTSerializable<CompoundTag>
         @Override
         public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side)
         {
-            return cap == ChatLogger.CAPABILITY ? opt.cast() : LazyOptional.empty();
+            return cap == FiniteChatLog.CAPABILITY ? opt.cast() : LazyOptional.empty();
         }
 
         @Override
@@ -46,7 +55,7 @@ public interface IChatLog extends INBTSerializable<CompoundTag>
         }
     }
 
-    public static record Entry(String sender, String contents, long timeStamp)
+    record Entry(String sender, String contents, long timeStamp)
     {
         public static final String SENDER = "sender";
         public static final String CONTENTS = "contents";

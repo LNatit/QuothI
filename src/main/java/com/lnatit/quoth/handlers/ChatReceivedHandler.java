@@ -1,8 +1,9 @@
 package com.lnatit.quoth.handlers;
 
-import com.lnatit.quoth.capability.ChatLogger;
+import com.lnatit.quoth.capability.FiniteChatLog;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,6 +18,6 @@ public class ChatReceivedHandler
         ServerPlayer player = event.getPlayer();
         LevelChunk chunk = player.level().getChunkAt(BlockPos.containing(player.position()));
 
-        chunk.getCapability(ChatLogger.CAPABILITY).ifPresent(cl -> cl.addEntry(event.getUsername(), event.getRawText(), player.server.getNextTickTime()));
+        chunk.getCapability(FiniteChatLog.CAPABILITY).ifPresent(cl -> cl.addEntry(event.getUsername(), event.getRawText(), player.server.getNextTickTime()));
     }
 }

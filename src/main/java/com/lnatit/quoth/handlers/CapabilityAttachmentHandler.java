@@ -1,6 +1,7 @@
 package com.lnatit.quoth.handlers;
 
-import com.lnatit.quoth.capability.ChatLogger;
+import com.lnatit.quoth.capability.FiniteChatLog;
+import com.lnatit.quoth.capability.IChatLog;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -15,6 +16,6 @@ public class CapabilityAttachmentHandler
     @SubscribeEvent
     public static void onCapAttached(AttachCapabilitiesEvent<LevelChunk> event)
     {
-        event.addCapability(new ResourceLocation(MODID, "clog"), );
+        event.addCapability(new ResourceLocation(MODID, "fclog"), new IChatLog.Provider<>(FiniteChatLog::new));
     }
 }
